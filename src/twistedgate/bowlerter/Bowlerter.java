@@ -20,40 +20,40 @@ public class Bowlerter{
 	/**
 	 * Encode bowl.
 	 * 
-	 * @param string
+	 * @param message
 	 * @return bowl
 	 */
-	public static String toBowl(String string){
-		String out = "";
+	public static String toBowl(String message){
+		String bowl = "";
 		
-		if(!string.isEmpty()){
-			byte[] bytes = string.getBytes(CHARSET);
+		if(!message.isEmpty()){
+			byte[] bytes = message.getBytes(CHARSET);
 			
 			int j = bytes.length - 1;
 			for(int i = 0;i < bytes.length;i++){
 				byte b = bytes[i];
 				
-				String bowl = "";
+				String tmp = "";
 				
-				bowl += (b & MASK_H_B) == 0 ? 'b' : 'B';
-				bowl += (b & MASK_H_O) == 0 ? 'o' : 'O';
-				bowl += (b & MASK_H_W) == 0 ? 'w' : 'W';
-				bowl += (b & MASK_H_L) == 0 ? 'l' : 'L';
-				bowl += ' ';
-				bowl += (b & MASK_L_B) == 0 ? 'b' : 'B';
-				bowl += (b & MASK_L_O) == 0 ? 'o' : 'O';
-				bowl += (b & MASK_L_W) == 0 ? 'w' : 'W';
-				bowl += (b & MASK_L_L) == 0 ? 'l' : 'L';
+				tmp += (b & MASK_H_B) == 0 ? 'b' : 'B';
+				tmp += (b & MASK_H_O) == 0 ? 'o' : 'O';
+				tmp += (b & MASK_H_W) == 0 ? 'w' : 'W';
+				tmp += (b & MASK_H_L) == 0 ? 'l' : 'L';
+				tmp += ' ';
+				tmp += (b & MASK_L_B) == 0 ? 'b' : 'B';
+				tmp += (b & MASK_L_O) == 0 ? 'o' : 'O';
+				tmp += (b & MASK_L_W) == 0 ? 'w' : 'W';
+				tmp += (b & MASK_L_L) == 0 ? 'l' : 'L';
 				
 				if(i < j){
-					bowl += ' ';
+					tmp += ' ';
 				}
 				
-				out += bowl;
+				bowl += tmp;
 			}
 		}
 		
-		return out;
+		return bowl;
 	}
 	
 	/**
@@ -63,8 +63,6 @@ public class Bowlerter{
 	 * @return string
 	 */
 	public static String toString(String bowl){
-		String out = "";
-		
 		if(!bowl.isEmpty()){
 			String[] array = bowl.split(" {1,}");
 			
@@ -79,10 +77,12 @@ public class Bowlerter{
 				
 				bytes[j] = (byte) (nibble(h, 4) | nibble(l, 0));
 			}
-			return new String(bytes, CHARSET);
+			
+			String message = new String(bytes, CHARSET);
+			return message;
 		}
 		
-		return out;
+		return "";
 	}
 	
 	/**
