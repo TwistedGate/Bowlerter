@@ -3,7 +3,7 @@ Is a joke program to convert a normal message into lots of Bowl with a system.
 
 ## Pre-requisites
 Java `1.8.0_271` or Higher
-Download the jar from releases
+Download the jar from [Releases](https://github.com/TwistedGate/Bowlerter/releases)
 
 ## How to encode your message
 - Open CMD
