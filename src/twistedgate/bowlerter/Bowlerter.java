@@ -1,6 +1,10 @@
 package twistedgate.bowlerter;
 
+import java.nio.charset.Charset;
+
 public class Bowlerter{
+	static final Charset CHARSET = Charset.forName("ASCII");
+	
 	static String bowl = "BOWL";
 	
 	static final int MASK_L_B = 0x01;
@@ -23,7 +27,7 @@ public class Bowlerter{
 		String out = "";
 		
 		if(!string.isEmpty()){
-			byte[] bytes = string.getBytes();
+			byte[] bytes = string.getBytes(CHARSET);
 			
 			int j = bytes.length - 1;
 			for(int i = 0;i < bytes.length;i++){
@@ -64,16 +68,18 @@ public class Bowlerter{
 		if(!bowl.isEmpty()){
 			String[] array = bowl.split(" {1,}");
 			
-			if(array.length / 2 % 2 == 1){
-				System.err.println("Missing a nibble.");
+			if(array.length % 2 == 1){
+				throw new RuntimeException("Missing or one too many bowl.");
 			}
 			
-			for(int i = 1;i < array.length;i += 2){
+			byte[] bytes = new byte[array.length / 2];
+			for(int i = 1,j = 0;i < array.length;i += 2,j++){
 				String h = array[i - 1];
 				String l = array[i];
 				
-				out += String.valueOf((char) (nibble(h, 4) | nibble(l, 0)));
+				bytes[j] = (byte) (nibble(h, 4) | nibble(l, 0));
 			}
+			return new String(bytes, CHARSET);
 		}
 		
 		return out;
