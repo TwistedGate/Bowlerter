@@ -1,6 +1,8 @@
 package twistedgate.bowlerter;
 
 public class Bowlerter{
+	static String bowl = "BOWL";
+	
 	static final int MASK_L_B = 0x01;
 	static final int MASK_L_O = 0x02;
 	static final int MASK_L_W = 0x04;
@@ -11,11 +13,17 @@ public class Bowlerter{
 	static final int MASK_H_W = 0x40;
 	static final int MASK_H_L = 0x80;
 	
-	public static String toBowl(String input){
+	/**
+	 * Encode bowl.
+	 * 
+	 * @param string
+	 * @return bowl
+	 */
+	public static String toBowl(String string){
 		String out = "";
 		
-		if(!input.isEmpty()){
-			byte[] bytes = input.getBytes();
+		if(!string.isEmpty()){
+			byte[] bytes = string.getBytes();
 			
 			int j = bytes.length - 1;
 			for(int i = 0;i < bytes.length;i++){
@@ -44,8 +52,12 @@ public class Bowlerter{
 		return out;
 	}
 	
-	static String bowl = "BOWL";
-	
+	/**
+	 * Decode bowl
+	 * 
+	 * @param bowl
+	 * @return string
+	 */
 	public static String toString(String bowl){
 		String out = "";
 		
@@ -53,7 +65,6 @@ public class Bowlerter{
 			String[] array = bowl.split(" {1,}");
 			
 			if(array.length / 2 % 2 == 1){
-				// Missing a nibble
 				System.err.println("Missing a nibble.");
 			}
 			
@@ -61,13 +72,20 @@ public class Bowlerter{
 				String h = array[i - 1];
 				String l = array[i];
 				
-				out += new String(new byte[]{(byte) (nibble(h, 4) | nibble(l, 0))});
+				out += String.valueOf((char) (nibble(h, 4) | nibble(l, 0)));
 			}
 		}
 		
 		return out;
 	}
 	
+	/**
+	 * Converts a single "bowl" back into a 4-Bit Nibble
+	 * 
+	 * @param str bowl
+	 * @param shiftL
+	 * @return 4-Bit Nibble
+	 */
 	static int nibble(String str, int shiftL){
 		int nibble = 0;
 		for(int i = 0;i < 4;i++){
@@ -76,13 +94,5 @@ public class Bowlerter{
 			}
 		}
 		return nibble << shiftL;
-	}
-	
-	static String binary(byte b){
-		String out = "";
-		for(int i = 0;i < Byte.SIZE;i++){
-			out += Integer.toString((b & 1 << i) > 0 ? 1 : 0);
-		}
-		return out;
 	}
 }

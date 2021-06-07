@@ -2,13 +2,26 @@ package twistedgate.bowlerter;
 
 public class Main{
 	public static void main(String[] args){
-		String input = "Hello World!";
+		// Sanity Check
+		{
+			String input = "Hello World!";
+			
+			String bowl = Bowlerter.toBowl(input);
+			System.out.println(input + " -> \"" + bowl + "\"");
+			
+			String str = Bowlerter.toString(bowl);
+			System.out.println("\"" + bowl + "\" -> " + str);
+		}
 		
-		String bowl = Bowlerter.toBowl(input);
+		System.out.println();
 		
-		String str = Bowlerter.toString(bowl);
-		
-		System.out.println(input + " -> \"" + bowl + "\"");
-		System.out.println("\"" + bowl + "\" -> " + str);
+		// Whatever
+		{
+			String input = "Bowl";
+			System.out.println(Bowlerter.toBowl(input));
+			
+			String bowl = "boWl bOwl bOWl BOWL BOWl BOWl bOWl boWL";
+			System.out.println(Bowlerter.toString(bowl));
+		}
 	}
 }
